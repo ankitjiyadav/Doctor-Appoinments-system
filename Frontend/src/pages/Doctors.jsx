@@ -8,6 +8,7 @@ const Doctors = () => {
 
   useEffect(() => {
     // ✅ Check if user is logged in
+    document.title = "Doctors";
     const token = localStorage.getItem("token"); // Token ya kisi bhi auth method ka use karein
     if (!token) {
       navigate("/login"); // Login page pe redirect karna

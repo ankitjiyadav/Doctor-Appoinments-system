@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'; // useNavigate for redirec
 import axios from 'axios';
 
 const Register = () => {
+  document.title = "Register Page";
   const [formData, setFormData] = useState({
     name: '',
     email: '',

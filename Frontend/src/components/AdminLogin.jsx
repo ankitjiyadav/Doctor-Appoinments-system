@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
+  document.title = "Admin Login";
   const navigate = useNavigate();
   const [role, setRole] = useState("admin");
   const [email, setEmail] = useState("");
@@ -10,16 +11,16 @@ const AdminLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error before making request
+    setError("");
 
     const apiUrl =
       role === "admin"
         ? "http://localhost:5001/api/admin/login"
-        : "http://localhost:5001/api/doctor/logins"; // Doctor login API
+        : "http://localhost:5001/api/admin/doctor-login"; // ✅ Doctor Login API Fix
 
     console.log("🔄 Logging in as:", role);
     console.log("🔗 API URL:", apiUrl);
-    
+
     try {
       const response = await fetch(apiUrl, {
         method: "POST",
@@ -36,14 +37,14 @@ const AdminLogin = () => {
         throw new Error(data.message || "Login failed");
       }
 
-      localStorage.setItem("token", data.token); // ✅ Store token for authentication
+      localStorage.setItem("token", data.token);
 
       if (role === "admin") {
         console.log("✅ Redirecting to /adminnavbar");
-        navigate("/adminnavbar"); // ✅ Navigate to Admin Dashboard
+        navigate("/adminnavbar");
       } else {
         console.log("✅ Redirecting to /doctorappoinment");
-        navigate("/doctorappoinment"); // ✅ Navigate to Doctor Dashboard
+        navigate("/doctorappoinment");
       }
     } catch (error) {
       console.error("❌ Login Error:", error.message);
@@ -62,9 +63,7 @@ const AdminLogin = () => {
         <div className="flex justify-center space-x-4">
           <button
             className={`px-4 py-2 rounded-md ${
-              role === "admin"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700"
+              role === "admin" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
             }`}
             onClick={() => setRole("admin")}
           >
@@ -72,9 +71,7 @@ const AdminLogin = () => {
           </button>
           <button
             className={`px-4 py-2 rounded-md ${
-              role === "doctor"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700"
+              role === "doctor" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
             }`}
             onClick={() => setRole("doctor")}
           >
@@ -109,10 +106,7 @@ const AdminLogin = () => {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-          >
+          <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">
             Login
           </button>
         </form>

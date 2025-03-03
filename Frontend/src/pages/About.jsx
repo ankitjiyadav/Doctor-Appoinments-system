@@ -1,6 +1,7 @@
 import React from 'react'
 import image12 from '../assets/doc12.png'
 const About = () => {
+  document.title = "About";
   const cards = [
     {
       title: 'EFFICIENCY :',

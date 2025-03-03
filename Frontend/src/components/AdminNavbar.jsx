@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import AdminAddDoctors from "./AdminAddDoctors"; 
 import Admindoctorslist from "./AdminDoctorslist";
-
+import Myappointments  from "../pages/Myappointments"
 const AdminNavbar = () => {
+  document.title = "Admin Navbar";
   const [activeTab, setActiveTab] = useState("dashboard");
   const navigate = useNavigate(); // Initialize navigate function
 
@@ -67,7 +68,7 @@ const AdminNavbar = () => {
       <div className="flex-1 flex flex-col">
         <div className="flex-1 p-5 overflow-auto">
           {activeTab === "dashboard" && <h2 className="text-2xl">Dashboard</h2>}
-          {activeTab === "appointments" && <h2 className="text-2xl">Appointments</h2>}
+          {activeTab === "appointments" && <Myappointments/>}
           {activeTab === "add-doctor" && <AdminAddDoctors />}
           {activeTab === "doctors-list" && <Admindoctorslist />}
         </div>

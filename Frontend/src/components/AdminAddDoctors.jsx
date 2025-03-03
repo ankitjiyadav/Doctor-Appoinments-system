@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AdminAddDoctors = () => {
+  document.title = "Add Doctors";
   const navigate = useNavigate();
   const [doctorData, setDoctorData] = useState({
     name: "",

@@ -17,6 +17,7 @@ const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("authToken"));
 
   useEffect(() => {
+    document.title = "Home Page";
     setIsLoggedIn(!!localStorage.getItem("authToken"));
   }, []);
 

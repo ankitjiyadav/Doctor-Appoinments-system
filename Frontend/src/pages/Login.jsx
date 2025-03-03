@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  document.title = "Login Pages";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -111,7 +112,7 @@ const Login = () => {
         </form>
 
         <p className="text-sm text-center mt-4">
-          Don't have an account?{" "}
+          Do not have an account?{" "}
           <Link to="/register" className="text-blue-500 hover:underline">
             Register
           </Link>

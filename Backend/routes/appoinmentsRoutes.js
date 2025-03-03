@@ -12,16 +12,24 @@ router.post("/book", async (req, res) => {
             return res.status(400).json({ success: false, message: "All fields are required" });
         }
 
-        const newAppointment = new Appointment({ userId, doctorId, date, time, slot });
-        await newAppointment.save();
+        // ✅ Convert IDs to ObjectId
+        const newAppointment = new Appointment({
+            userId: new mongoose.Types.ObjectId(userId),
+            doctorId: new mongoose.Types.ObjectId(doctorId),
+            date,
+            time,
+            slot
+        });
 
-        res.status(201).json({ success: true, message: "Appointment booked successfully", appointment: newAppointment });
+        await newAppointment.save();
+        res.status(201).json({ success: true, message: "✅ Appointment booked successfully!", appointment: newAppointment });
 
     } catch (error) {
         console.error("❌ Error booking appointment:", error);
-        res.status(500).json({ success: false, message: "Server error", error });
+        res.status(500).json({ success: false, message: "⚠️ Server error", error });
     }
 });
+
 
 // ✅ Get User's Appointments
 router.get("/:userId", async (req, res) => {
@@ -30,23 +38,29 @@ router.get("/:userId", async (req, res) => {
         console.log("✅ Fetching appointments for user:", userId);
 
         if (!mongoose.Types.ObjectId.isValid(userId)) {
+            console.error("❌ Invalid user ID format:", userId);
             return res.status(400).json({ success: false, message: "Invalid user ID format" });
         }
 
-        // ✅ Fix ObjectId issue
         const appointments = await Appointment.find({ userId: new mongoose.Types.ObjectId(userId) })
             .populate({ path: "doctorId", select: "name speciality" });
 
+        console.log("📌 Appointments Found:", appointments.length);
+
         if (appointments.length === 0) {
-            return res.status(404).json({ success: false, message: "No appointments found for this user." });
+            return res.status(404).json({ success: false, message: "⚠️ No appointments found for this user." });
         }
 
         res.status(200).json({ success: true, appointments });
 
     } catch (error) {
         console.error("❌ Error fetching appointments:", error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        res.status(500).json({ success: false, message: "⚠️ Server error", error: error.message });
     }
 });
+
+module.exports = router;
+
+
 
 module.exports = router;

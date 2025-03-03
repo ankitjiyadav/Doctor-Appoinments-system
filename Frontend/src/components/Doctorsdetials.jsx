@@ -18,6 +18,7 @@ const DoctorDetails = () => {
   console.log("Extracted User ID:", userId); // Debugging
 
   useEffect(() => {
+    document.title = "Doctors detials";
     axios.get(`http://localhost:5001/api/doctorss/${id}`)
       .then(response => {
         console.log("Doctor API Response:", response.data); // ✅ Debugging

@@ -10,6 +10,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("authToken"));
 
   useEffect(() => {
+    document.title = "Navbar";
     // Check localStorage on component mount
     setIsLoggedIn(!!localStorage.getItem("authToken"));
   }, []);

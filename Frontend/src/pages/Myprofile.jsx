@@ -14,6 +14,7 @@ const MyProfile = () => {
   };
 
   useEffect(() => {
+    document.title = "My Profile";
     const fetchUserProfile = async () => {
       const authToken = localStorage.getItem("authToken");
 

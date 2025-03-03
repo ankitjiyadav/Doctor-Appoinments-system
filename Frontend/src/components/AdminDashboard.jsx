@@ -3,6 +3,7 @@ import AdminDoctorslist from './AdminDoctorslist';
 import AdminAddDoctors from './AdminAddDoctors';
 
 const AdminDashboard = () => {
+  document.title = "Admin Dashboard";
   const [doctors, setDoctors] = useState([]);
 
   // Function to add doctor to the list

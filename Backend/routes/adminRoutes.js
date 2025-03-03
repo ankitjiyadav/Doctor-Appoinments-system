@@ -2,7 +2,8 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const Admin = require("../models/adminmodels"); // ✅ Ensure Correct Model Import
+const Admin = require("../models/adminmodels");
+const Doctor = require("../models/userModel") // ✅ Ensure Correct Model Import
 dotenv.config();  // ✅ Load .env variables
 
 const router = express.Router();
@@ -36,6 +37,31 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+router.post("/doctor-login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // ✅ Check if Doctor Exists
+    const doctor = await Doctor.findOne({ email });
+    if (!doctor) return res.status(400).json({ message: "Invalid credentials" });
+
+    // ✅ Compare Passwords
+    const isMatch = await bcrypt.compare(password, doctor.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+    // ✅ Generate JWT Token
+    const token = jwt.sign({ doctorId: doctor._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.status(200).json({ token, message: "Doctor login successful" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const Contect = () => {
+  document.title = "Contact Us";
   const [formData, setFormData] = useState({
     name: "",
     email: "",

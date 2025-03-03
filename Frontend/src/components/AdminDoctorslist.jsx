@@ -5,6 +5,7 @@ const AdminDoctorsList = () => {
 
   // Backend se doctors ka data fetch karna
   useEffect(() => {
+    document.title = "Doctors list";
     const fetchDoctors = async () => {
       try {
         const response = await fetch("http://localhost:5001/api/doctors");
