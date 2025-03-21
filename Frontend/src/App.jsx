@@ -16,6 +16,7 @@ import AdminDoctorslist from "./components/AdminDoctorslist";
 import AdminDashboard from "./components/AdminDashboard";
 import Doctorappoinment from "./components/Doctorappoinment ";
 import MyAppointments from "./pages/Myappointments";
+import Admindoctorsprofilr from "./components/Admindoctorsprofilr";
 function App() {
   return (
     <div>
@@ -37,8 +38,7 @@ function App() {
           <Route path="/admindashboard" element={<AdminDashboard/>}/>
           <Route path="/doctorappoinment" element={<Doctorappoinment/>}/>
           <Route path="/my-appointments" element={<MyAppointments/>}/>
-
-
+          <Route path="/admindoctorsprofilr" element={<Admindoctorsprofilr/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

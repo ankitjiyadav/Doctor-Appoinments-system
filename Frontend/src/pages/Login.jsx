@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        "https://doctor-appoinments-system-1.onrender.com/api/auth/login",
         formData
       );
 

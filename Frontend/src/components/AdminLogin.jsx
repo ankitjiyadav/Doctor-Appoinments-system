@@ -15,8 +15,8 @@ const AdminLogin = () => {
 
     const apiUrl =
       role === "admin"
-        ? "http://localhost:5001/api/admin/login"
-        : "http://localhost:5001/api/admin/doctor-login"; // ✅ Doctor Login API Fix
+        ? "https://doctor-appoinments-system-1.onrender.com/api/admin/login"
+        : "https://doctor-appoinments-system-1.onrender.com/api/admin/doctor-login"; // ✅ Doctor Login API Fix
 
     console.log("🔄 Logging in as:", role);
     console.log("🔗 API URL:", apiUrl);
@@ -38,11 +38,13 @@ const AdminLogin = () => {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("doctor", JSON.stringify(data.doctor));
 
       if (role === "admin") {
         console.log("✅ Redirecting to /adminnavbar");
         navigate("/adminnavbar");
       } else {
+        console.log("Doctor Data: ",data.doctor._id);
         console.log("✅ Redirecting to /doctorappoinment");
         navigate("/doctorappoinment");
       }

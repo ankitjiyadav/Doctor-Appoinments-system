@@ -23,7 +23,7 @@ const userId = user?.userId;
       try {
         console.log(`📢 Fetching appointments for user: ${userId}`);
         const response = await axios.get(
-          `http://localhost:5001/api/appointments/${userId}`
+          `https://doctor-appoinments-system-1.onrender.com/api/appointments/${userId}`
         );
 
         console.log("📌 Full Response:", response.data);

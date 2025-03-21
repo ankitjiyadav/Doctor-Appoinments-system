@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const Admin = require("../models/adminmodels");
-const Doctor = require("../models/userModel") // ✅ Ensure Correct Model Import
-dotenv.config();  // ✅ Load .env variables
+const Doctor = require("../models/adminadddoctors") 
+dotenv.config();
 
 const router = express.Router();
 
@@ -12,29 +12,33 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("🔍 Checking Admin with email:", email);
 
-    // ✅ Check if Admin Exists
     const admin = await Admin.findOne({ email });
-    if (!admin) return res.status(400).json({ message: "Invalid credentials" });
-
-    // ✅ Compare Passwords
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-
-    // ✅ Generate JWT Token
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({ error: "JWT_SECRET is missing in .env file" });
+    if (!admin) {
+      console.log("❌ Admin not found in database!");
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      { adminId: admin._id },
-      process.env.JWT_SECRET,  // ✅ Ensure JWT_SECRET is defined
-      { expiresIn: "1h" }
-    );
+    console.log("🔍 Admin Found:", admin);
+
+    console.log("🔍 Comparing passwords...");
+    console.log("🔹 Entered Password:", password);
+    console.log("🔹 Stored Hashed Password:", admin.password);
+
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      console.log("❌ Password mismatch!");
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    console.log("✅ Password matched!");
+    const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.status(200).json({ token, message: "Login successful" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("❌ Error creating admin:", error.message);
+        res.status(500).json({ error: err.message });
   }
 });
 
@@ -55,7 +59,7 @@ router.post("/doctor-login", async (req, res) => {
     // ✅ Generate JWT Token
     const token = jwt.sign({ doctorId: doctor._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(200).json({ token, message: "Doctor login successful" });
+    res.status(200).json({ token, message: "Doctor login successful" ,doctor});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,49 +1,51 @@
 import React, { useState } from "react";
-import { FaUser, FaCalendarCheck, FaSignOutAlt } from "react-icons/fa"; // ✅ Correct Import
+import { FaUserMd, FaCalendarCheck, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // ✅ Navigation Hook
+import Admindoctorsprofilr from "./Admindoctorsprofilr";
+import MyAppointments from "../pages/Myappointments";
 
-const DoctorAppointment = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+const DoctorDashboard = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+  const navigate = useNavigate(); // ✅ Initialize Navigation
+
+  // ✅ लॉगआउट फ़ंक्शन
+  const handleLogout = () => {
+    localStorage.removeItem("token");  // ✅ टोकन हटाएँ
+    localStorage.removeItem("doctor"); // ✅ डॉक्टर की जानकारी हटाएँ
+    navigate("/"); // ✅ होम पेज पर भेजें
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-600 text-white p-5 flex flex-col">
-        {/* Doctor Profile in Sidebar */}
-        <div className="flex items-center space-x-3">
-          <img
-            src="/default-image.png"
-            alt="Doctor"
-            className="w-16 h-16 rounded-full border-2 border-white"
-          />
-          <div>
-            <h2 className="text-lg font-bold">Dr. John Doe</h2>
-            <p className="text-sm text-gray-200">Cardiologist</p>
-          </div>
-        </div>
+      <div className="w-72 bg-gray-800 text-white p-6 flex flex-col shadow-lg">
+        <h2 className="text-center text-xl font-semibold">Doctors Profile</h2>
 
-        {/* Sidebar Navigation */}
         <nav className="mt-6 space-y-2">
           <button
-            className={`flex items-center space-x-2 p-2 rounded-md w-full ${
-              activeTab === "profile" ? "bg-blue-800" : ""
+            className={`flex items-center space-x-2 p-3 rounded-lg w-full transition ${
+              activeTab === "profile" ? "bg-blue-700" : "hover:bg-gray-700"
             }`}
             onClick={() => setActiveTab("profile")}
           >
-            <FaUser />
+            <FaCalendarCheck />
             <span>Profile</span>
           </button>
+
           <button
-            className={`flex items-center space-x-2 p-2 rounded-md w-full ${
-              activeTab === "appointments" ? "bg-blue-800" : ""
+            className={`flex items-center space-x-2 p-3 rounded-lg w-full transition ${
+              activeTab === "appointments" ? "bg-blue-700" : "hover:bg-gray-700"
             }`}
             onClick={() => setActiveTab("appointments")}
           >
-            <FaCalendarCheck />
+            <FaUserMd />
             <span>Appointments</span>
           </button>
+
+          {/* ✅ लॉगआउट बटन */}
           <button
-            className="flex items-center space-x-2 p-2 rounded-md w-full bg-red-500 hover:bg-red-600 mt-4"
-            onClick={() => alert("Logged Out!")}
+            className="flex items-center space-x-2 p-3 rounded-lg w-full bg-red-500 hover:bg-red-600 mt-auto"
+            onClick={handleLogout} // ✅ Updated Logout Function
           >
             <FaSignOutAlt />
             <span>Logout</span>
@@ -51,26 +53,15 @@ const DoctorAppointment = () => {
         </nav>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-6">
-        {activeTab === "profile" && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">Doctor Profile</h2>
-            <p>Name: Dr. John Doe</p>
-            <p>Specialization: Cardiologist</p>
-            <p>Experience: 10 Years</p>
-          </div>
-        )}
-
-        {activeTab === "appointments" && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">Appointments</h2>
-            <p>No Appointments Yet.</p>
-          </div>
-        )}
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        <div className="flex-1 p-5 overflow-auto">
+          {activeTab === "appointments" && <MyAppointments />}
+          {activeTab === "profile" && <Admindoctorsprofilr />}
+        </div>
       </div>
     </div>
   );
 };
 
-export default DoctorAppointment;
+export default DoctorDashboard;

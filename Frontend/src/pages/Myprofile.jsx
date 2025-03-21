@@ -25,7 +25,7 @@ const MyProfile = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:5001/api/users/me", {
+        const response = await axios.get("https://doctor-appoinments-system-1.onrender.com/api/users/me", {
           headers: { Authorization: `Bearer ${authToken}` }, // ✅ Token sent
         });
 

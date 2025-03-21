@@ -42,7 +42,7 @@ const AdminAddDoctors = () => {
     });
 
     try {
-      const response = await fetch("http://localhost:5001/api/doctors/add", {
+      const response = await fetch("https://doctor-appoinments-system-1.onrender.com/api/doctors/add", {
         method: "POST",
         body: formData,
       });

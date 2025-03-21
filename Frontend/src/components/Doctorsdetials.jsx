@@ -19,7 +19,7 @@ const DoctorDetails = () => {
 
   useEffect(() => {
     document.title = "Doctors detials";
-    axios.get(`http://localhost:5001/api/doctorss/${id}`)
+    axios.get(`https://doctor-appoinments-system-1.onrender.com/api/doctorss/${id}`)
       .then(response => {
         console.log("Doctor API Response:", response.data); // ✅ Debugging
         if (response.data.success && response.data.doctor) {
@@ -57,7 +57,7 @@ const DoctorDetails = () => {
       slot: doctor.slot
     });
 
-    axios.post("http://localhost:5001/api/appointments/book", {
+    axios.post("https://doctor-appoinments-system-1.onrender.com/api/appointments/book", {
       userId: userId,
       doctorId: doctor._id,
       date: doctor.date,
@@ -89,14 +89,14 @@ const DoctorDetails = () => {
       <div className="bg-white shadow-md rounded-lg p-6">
         <div className="flex items-center">
           <img 
-            src={doctor.image ? `http://localhost:5001/${doctor.image}` : "/default-avatar.png"} 
+            src={doctor.image ? `https://doctor-appoinments-system-1.onrender.com/${doctor.image}` : "/default-avatar.png"} 
             alt={doctor.name || "Doctor Image"} 
             className="w-40 h-40 rounded-full shadow-lg border"
           />
           <div className="ml-6">
             <h1 className="text-3xl font-bold">{doctor.name}</h1>
             <p className="text-lg text-gray-700">{doctor.speciality}</p>
-            <p className="text-gray-600">{doctor.about}</p>
+            <p className="text-gray-100">{doctor.about}</p>
             <p className="text-green-600 font-semibold text-xl">₹{doctor.fees}</p>
           </div>
         </div>

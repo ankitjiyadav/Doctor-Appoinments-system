@@ -8,7 +8,7 @@ const AdminDoctorsList = () => {
     document.title = "Doctors list";
     const fetchDoctors = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/doctors");
+        const response = await fetch("https://doctor-appoinments-system-1.onrender.com/api/doctors");
         const data = await response.json();
         console.log("Fetched Doctors:", data); // ✅ Response Dekhne ke liye
         setDoctors(data);
@@ -39,13 +39,13 @@ const AdminDoctorsList = () => {
                   src={
                     doctor.image
                       ? doctor.image
-                      : "http://localhost:5001/default-doctor.png"
+                      : "https://doctor-appoinments-system-1.onrender.com/default-doctor.png"
                   }
                   alt={doctor.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "http://localhost:5001/default-doctor.png";
+                    e.target.src = "https://doctor-appoinments-system-1.onrender.com/default-doctor.png";
                   }}
                 />
               </div>

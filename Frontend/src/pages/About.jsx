@@ -5,7 +5,7 @@ const About = () => {
   const cards = [
     {
       title: 'EFFICIENCY :',
-      description: 'Streamlined appointment scheduling that fits into your busy lifestyle.',
+      description: 'Streamlined appointment scheduling that fits into your busy lifestyle.', 
     },
     {
       title: 'CONVENIENCE :',

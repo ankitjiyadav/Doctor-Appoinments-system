@@ -71,7 +71,7 @@ exports.getDoctors = async (req, res) => {
     const doctorsWithImage = doctors.map((doctor) => ({
       ...doctor._doc,
       image: doctor.image
-        ? `http://localhost:5001/${doctor.image}` // ✅ Correct image URL
+        ? `https://doctor-appoinments-system-1.onrender.com/${doctor.image}` // ✅ Correct image URL
         : "",
     }));
 

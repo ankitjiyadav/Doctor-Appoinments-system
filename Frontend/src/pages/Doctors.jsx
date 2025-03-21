@@ -18,7 +18,7 @@ const Doctors = () => {
     // ✅ Fetch doctors only if user is logged in
     const fetchDoctors = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/doctors", {
+        const response = await fetch("https://doctor-appoinments-system-1.onrender.com/api/doctors", {
           headers: {
             Authorization: `Bearer ${token}`, // Agar API ke liye token required hai
           },

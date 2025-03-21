@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 
-dotenv.config();  // ✅ dotenv sabse pehle load karein
+dotenv.config(); 
 
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -12,6 +12,7 @@ const adminadddocterroutes = require('./routes/adminadddoctorsRoutes')
 const doctorRoutes = require("./routes/doctorsdetelesRoutes");
 const appointmentRoutes = require("./routes/appoinmentsRoutes");
 const userprofileRoutes = require('./routes/userProfileRoutes')
+const admindoctors = require('./routes/adminDoctors')
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -29,6 +30,7 @@ app.use("/uploads", express.static("uploads"));
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.log('❌ MongoDB Connection Error:', err));
+  console.log("MongoDB URI:", process.env.MONGO_URI);
 
 // Use Routes
 app.use('/api/auth', authRoutes);
@@ -37,6 +39,8 @@ app.use("/api/doctors", adminadddocterroutes);
 app.use("/api/doctorss", doctorRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/users", userprofileRoutes);
+app.use("/api/admindoctor",admindoctors);
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

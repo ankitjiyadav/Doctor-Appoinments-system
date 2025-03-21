@@ -26,7 +26,7 @@ const Register = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', formData);
+      const response = await axios.post('https://doctor-appoinments-system-1.onrender.com/api/auth/register', formData);
       
       console.log("Response:", response.data); // Console me data show karne ke liye
       
