@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 const Admin = require("./models/adminmodels");
 
@@ -13,11 +12,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
       if (existingAdmin) {
         console.log("❌ Admin already exists!");
       } else {
-        const hashedPassword = await bcrypt.hash("admin123", 10);
-
         const admin = new Admin({
           email: "adminexample@gmail.com",
-          password: hashedPassword,
+          password: "admin123",  // ✅ No Hashing
         });
 
         await admin.save();

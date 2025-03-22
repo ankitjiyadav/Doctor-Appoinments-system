@@ -1,49 +1,43 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const Admin = require("../models/adminmodels");
-const Doctor = require("../models/adminadddoctors") 
-dotenv.config();
+const Doctor = require("../models/adminadddoctors");
 
+dotenv.config();
 const router = express.Router();
 
-// 🔹 **Admin Login API**
+
+// ✅ Static Admin Credentials (Backend में Defined)
+const ADMIN_EMAIL = "admin@example.com";
+const ADMIN_PASSWORD = "admin123";
+
+// 🔹 **Admin Login API (Without Database)**
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     console.log("🔍 Checking Admin with email:", email);
-
-    const admin = await Admin.findOne({ email });
-    if (!admin) {
-      console.log("❌ Admin not found in database!");
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-
-    console.log("🔍 Admin Found:", admin);
-
-    console.log("🔍 Comparing passwords...");
     console.log("🔹 Entered Password:", password);
-    console.log("🔹 Stored Hashed Password:", admin.password);
 
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
-      console.log("❌ Password mismatch!");
+    // ✅ Directly Check Hardcoded Credentials
+    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+      console.log("❌ Invalid credentials!");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    console.log("✅ Password matched!");
-    const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    console.log("✅ Admin Authenticated!");
+    const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(200).json({ token, message: "Login successful" });
+    res.status(200).json({ token, message: "Admin login successful" });
   } catch (err) {
-    console.error("❌ Error creating admin:", error.message);
-        res.status(500).json({ error: err.message });
+    console.error("❌ Error during login:", err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
 
-
+// 🔹 **Doctor Login API (without bcrypt)**
 router.post("/doctor-login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -52,21 +46,22 @@ router.post("/doctor-login", async (req, res) => {
     const doctor = await Doctor.findOne({ email });
     if (!doctor) return res.status(400).json({ message: "Invalid credentials" });
 
-    // ✅ Compare Passwords
-    const isMatch = await bcrypt.compare(password, doctor.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    console.log("🔹 Entered Password:", password);
+    console.log("🔹 Stored Password:", doctor.password);
+
+    // ✅ Compare Passwords Directly
+    if (password !== doctor.password) {
+      console.log("❌ Password mismatch!");
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
     // ✅ Generate JWT Token
     const token = jwt.sign({ doctorId: doctor._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.status(200).json({ token, message: "Doctor login successful" ,doctor});
+    res.status(200).json({ token, message: "Doctor login successful", doctor });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
-
-
-
 
 module.exports = router;
